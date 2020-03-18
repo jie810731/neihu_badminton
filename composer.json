@@ -1,0 +1,12 @@
+{
+    "name": "badminton/badminton",
+    "authors": [
+        {
+            "name": "Joseph Tang",
+            "email": "jie810731@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.5"
+    }
+}
