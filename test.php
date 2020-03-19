@@ -13,7 +13,7 @@ if (!$session) {
     return;
 }
 //24小時
-$times = [6, 7, 8];
+$times = [19, 20, 21];
 
 date_default_timezone_set('Asia/Taipei');
 
@@ -21,14 +21,14 @@ $get_ticket_date = date("Y/m/d", mktime(0, 0, 0, date("m"), date("d") + 8, date(
 
 $can_start_get_ticket_time = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d") + 1, date("Y")));
 $end_get_ticket_time = date("Y-m-d H:i:s", mktime(0, 0, 10, date("m"), date("d") + 1, date("Y")));
-$now = date("Y-m-d H:i:s", strtotime('now'));
 
 $is_can_get_ticket = true;
 
 echo ('going to start loop');
 while ($is_can_get_ticket) {
+    $now = date("Y-m-d H:i:s", strtotime('now'));
+
     if ($now > $can_start_get_ticket_time) {
-        //$get_ticket_date = '2020/03/26';
         echo ('post');
         foreach ($times as $time) {
             postTicket($session, $get_ticket_date, $time);
@@ -39,6 +39,7 @@ while ($is_can_get_ticket) {
         echo ('over time');
         $is_can_get_ticket = false;
     }
+
 }
 echo ('loop end');
 
