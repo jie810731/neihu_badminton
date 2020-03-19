@@ -4,6 +4,17 @@ use GuzzleHttp\Client;
 
 require __DIR__ . '/vendor/autoload.php';
 
+if (isset($argv[1])) {
+    $session = $argv[1];
+}
+
+if (!$session) {
+    echo ('empty session');
+    return;
+}
+//24小時
+$times = [19, 20, 21];
+
 $client = new Client();
 
 date_default_timezone_set('Asia/Taipei');
@@ -16,22 +27,31 @@ $now = date("Y-m-d H:i:s", strtotime('now'));
 
 $is_can_get_ticket = true;
 
-
+echo ('going to start loop');
 while ($is_can_get_ticket) {
     if ($now > $can_start_get_ticket_time) {
-        $this.postTicket($get_ticket_date);
+        echo ('post');
+        foreach ($times as $time) {
+            $this . postTicket($get_ticket_date, $time);
+        }
     }
 
-    if ($now > $$end_get_ticket_time) {
+    if ($now > $end_get_ticket_time) {
+        echo ('over time');
         $is_can_get_ticket = false;
     }
 }
+echo ('loop end');
 
-function postTicket($get_ticket_date)
+function postTicket($get_ticket_date, $order_time)
 {
+    if (!$get_ticket_date || !$order_time) {
+        return;
+    }
+
     $jar = \GuzzleHttp\Cookie\CookieJar::fromArray(
         [
-            'ASP.NET_SessionId' => 'oqafhhcax1g2xgtx4taugici',
+            'ASP.NET_SessionId' => $session,
         ],
         'scr.cyc.org.tw'
     );
@@ -41,7 +61,7 @@ function postTicket($get_ticket_date)
         'files' => 'booking_place',
         'StepFlag' => 25,
         'QPid' => 84,
-        'QTime' => 6,
+        'QTime' => $order_time,
         'D' => $get_ticket_date,
     ];
 
