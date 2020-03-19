@@ -7,15 +7,13 @@ require __DIR__ . '/vendor/autoload.php';
 if (isset($argv[1])) {
     $session = $argv[1];
 }
-
+//dy2pbaomsvfy4h53nxneyid0
 if (!$session) {
     echo ('empty session');
     return;
 }
 //24小時
-$times = [19, 20, 21];
-
-$client = new Client();
+$times = [6, 7, 8];
 
 date_default_timezone_set('Asia/Taipei');
 
@@ -30,9 +28,10 @@ $is_can_get_ticket = true;
 echo ('going to start loop');
 while ($is_can_get_ticket) {
     if ($now > $can_start_get_ticket_time) {
+        //$get_ticket_date = '2020/03/26';
         echo ('post');
         foreach ($times as $time) {
-            $this . postTicket($get_ticket_date, $time);
+            postTicket($session, $get_ticket_date, $time);
         }
     }
 
@@ -43,7 +42,7 @@ while ($is_can_get_ticket) {
 }
 echo ('loop end');
 
-function postTicket($get_ticket_date, $order_time)
+function postTicket($session, $get_ticket_date, $order_time)
 {
     if (!$get_ticket_date || !$order_time) {
         return;
@@ -64,6 +63,8 @@ function postTicket($get_ticket_date, $order_time)
         'QTime' => $order_time,
         'D' => $get_ticket_date,
     ];
+
+    $client = new Client();
 
     $client->request('GET', 'https://scr.cyc.org.tw/tp12.aspx', [
         'query' => $query,
