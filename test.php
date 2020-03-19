@@ -24,24 +24,33 @@ $end_get_ticket_time = date("Y-m-d H:i:s", mktime(0, 0, 10, date("m"), date("d")
 
 $is_can_get_ticket = true;
 
-echo ('going to start loop');
+echo ('going to start loop' . PHP_EOL);
+
 while ($is_can_get_ticket) {
     $now = date("Y-m-d H:i:s", strtotime('now'));
 
     if ($now > $can_start_get_ticket_time) {
-        echo ('post');
+
         foreach ($times as $time) {
+            echo ("post time = {$time} " . PHP_EOL);
+
             postTicket($session, $get_ticket_date, $time);
+
+            echo ("post time = {$time} end ". PHP_EOL );
         }
+    } else {
+        echo("time  not yet now = {$now}". PHP_EOL );
     }
 
     if ($now > $end_get_ticket_time) {
-        echo ('over time');
+        echo ('over time'. PHP_EOL );
         $is_can_get_ticket = false;
+    }else{
+        echo("continue loop". PHP_EOL );
     }
 
 }
-echo ('loop end');
+echo ('loop end'. PHP_EOL );
 
 function postTicket($session, $get_ticket_date, $order_time)
 {
